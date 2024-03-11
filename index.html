@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>NSFW Image Detection</title>
+    <!-- Import pipeline from transformers via CDN -->
+    <script type="module">
+        // Importing pipeline function from the CDN
+        import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.16.0';
+        // Making pipeline available globally by attaching it to the window object
+        window.pipeline = pipeline;
+    </script>
+    <!-- Load your custom script for handling NSFW checks, marked as a module -->
+    <script src="./main.js" defer crossorigin="anonymous" type="module"></script>
+</head>
+
+<body>
+    <div id="header">
+        <p>Serving: <code class="code">Hugging Face Zero-Shot Classification</code></p>
+    </div>
+    <div id="root">
+        <div class="App">
+            <div class="content">
+                <!-- Image will be displayed here if it is not detected as NSFW -->
+                <img id="displayImage" src="" alt="Displayed Image" style="max-width:100%; height:auto; margin-bottom: 20px;" crossorigin="anonymous">
+            </div>
+        </div>
+    </div>
+    <script crossorigin="anonymous" type="module">
+        import { NsfwDetector } from './main.js';
+
+        // Initialize and call your Hugging Face-based NSFW detection function after the page has loaded
+        window.onload = async () => {
+            // Specify the URL of the image here
+            const imageUrl = "https://hotpotmedia.s3.us-east-2.amazonaws.com/8-tMUiK3b2Icyoca8.png";
+            
+            // Initialize an instance of NsfwDetector
+            const detector = new NsfwDetector();
+
+            // Call the NSFW detection method
+            try {
+                const isNsfw = await detector.isNsfw(imageUrl);
+                console.log("NSFW content detected:", isNsfw);
+                // Update the displayed image only if it's safe
+                if (!isNsfw) {
+                    document.getElementById("displayImage").src = imageUrl;
+                } else {
+                    // Handle NSFW content according to your application's policy
+                    console.warn("NSFW content! Image not displayed.");
+                }
+            } catch (error) {
+                console.error("Error detecting NSFW content:", error);
+            }
+        };
+    </script>
+</body>
+</html>
