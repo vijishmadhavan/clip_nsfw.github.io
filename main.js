@@ -1,7 +1,7 @@
 class NsfwDetector {
     constructor() {
         // Encapsulate thresholds and image classes as private class variables
-        this._threshold = 0.5; // Example threshold
+        this._threshold = 0.2; // Example threshold
         this._nsfwLabels = [
             'FEMALE_BREAST_EXPOSED',
             'FEMALE_GENITALIA_EXPOSED',
