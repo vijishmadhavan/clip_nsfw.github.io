@@ -19,8 +19,8 @@ class NsfwDetector {
 
     async isNsfw(imageUrl) {
         try {
-            // Initialize the classification pipeline with the specified model
-            const classifier = await window.pipeline('zero-shot-image-classification', 'Xenova/clip-vit-base-patch32');
+            // Use the renamed tensorflowPipeline for classification
+            const classifier = await window.tensorflowPipeline('zero-shot-image-classification', 'Xenova/clip-vit-base-patch32');
 
             // Perform classification using encapsulated labels
             const output = await classifier(imageUrl, this._nsfwLabels);
@@ -42,3 +42,4 @@ class NsfwDetector {
 
 // Export the NsfwDetector class so it can be imported in other files
 export { NsfwDetector };
+
